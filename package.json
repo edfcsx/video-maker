@@ -1,0 +1,36 @@
+{
+  "name": "video-maker",
+  "version": "1.0.0",
+  "description": "open source project for building automatic videos",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/edfcsx/video-maker.git"
+  },
+  "keywords": [
+    "open",
+    "source",
+    "video",
+    "maker",
+    "automatic",
+    "videos",
+    "node"
+  ],
+  "author": "Eduardo Cipriano <edfcsx@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/edfcsx/video-maker/issues"
+  },
+  "homepage": "https://github.com/edfcsx/video-maker#readme",
+  "devDependencies": {
+    "eslint": "^5.15.1",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.16.0"
+  },
+  "dependencies": {
+    "readline-sync": "^1.4.9"
+  }
+}
