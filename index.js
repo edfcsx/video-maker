@@ -1,4 +1,3 @@
-const readline = require('readline-sync');
 const Parser = require('rss-parser');
 const prompts = require('prompts');
 
@@ -25,13 +24,16 @@ async function start() {
       message: 'Choose your trend: ',
       choices: trendsFormated,
     });
-
     return choice.term;
   }
 
   async function askAndReturnSearchTerm() {
-    const response = readline.question('Type a wikipedia search term or G to fetch google trends: ');
-    return (response.toUpperCase() === 'G') ? askAndReturnTrend() : response;
+    const response = await prompts({
+      type: 'text',
+      name: 'searchTerm',
+      message: 'Type a wikipedia search term of G to fetch google trends: ',
+    });
+    return (response.searchTerm.toUpperCase() === 'G') ? askAndReturnTrend() : response.searchTerm;
   }
 
   async function askAndReturnPrefix() {
@@ -45,7 +47,6 @@ async function start() {
         { title: 'The history of', value: 'The history of' },
       ],
     });
-
     return question.prefix;
   }
 
