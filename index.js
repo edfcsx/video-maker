@@ -1,20 +1,56 @@
 const readline = require('readline-sync');
+const Parser = require('rss-parser');
+const prompts = require('prompts');
 
-function start() {
+const TREND_URL = 'https://trends.google.com/trends/trendingsearches/daily/rss?geo=BR';
+
+async function start() {
   const content = {};
-  function askAndReturnSearchTerm() {
-    return readline.question('Type a wikipedia search term: ');
+
+  async function getGoogleTrends() {
+    const parser = new Parser();
+    const trends = await parser.parseURL(TREND_URL);
+    return trends.items.map(({ title }) => title);
   }
 
-  function askAndReturnPrefix() {
-    const prefixes = ['Who is', 'What is', 'The History of'];
-    const selectedPrefixIndex = readline.keyInSelect(prefixes, 'Choose one option: ');
-    const selectedPrefixTest = prefixes[selectedPrefixIndex];
-    return selectedPrefixTest;
+  async function askAndReturnTrend() {
+    const trendsFormated = [];
+    process.stdout.write('Please wait...\n');
+    const trends = await getGoogleTrends();
+    trends.map(trend => trendsFormated.push({ title: trend, value: trend }));
+
+    const choice = await prompts({
+      type: 'select',
+      name: 'term',
+      message: 'Choose your trend: ',
+      choices: trendsFormated,
+    });
+
+    return choice.term;
   }
 
-  content.searchTerm = askAndReturnSearchTerm();
-  content.prefix = askAndReturnPrefix();
+  async function askAndReturnSearchTerm() {
+    const response = readline.question('Type a wikipedia search term or G to fetch google trends: ');
+    return (response.toUpperCase() === 'G') ? askAndReturnTrend() : response;
+  }
+
+  async function askAndReturnPrefix() {
+    const question = await prompts({
+      type: 'select',
+      name: 'prefix',
+      message: 'Choose one option: ',
+      choices: [
+        { title: 'Who is', value: 'Who is' },
+        { title: 'What is', value: 'What is' },
+        { title: 'The history of', value: 'The history of' },
+      ],
+    });
+
+    return question.prefix;
+  }
+
+  content.searchTerm = await askAndReturnSearchTerm();
+  content.prefix = await askAndReturnPrefix();
 
   console.log(content);
 }
