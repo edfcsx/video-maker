@@ -1,6 +1,11 @@
 const Parser = require('rss-parser');
 const prompts = require('prompts');
 
+const robots = {
+  // eslint-disable-next-line global-require
+  text: require('./robots/text'),
+};
+
 const TREND_URL = 'https://trends.google.com/trends/trendingsearches/daily/rss?geo=BR';
 
 async function start() {
@@ -53,7 +58,9 @@ async function start() {
   content.searchTerm = await askAndReturnSearchTerm();
   content.prefix = await askAndReturnPrefix();
 
-  console.log(content);
+  await robots.text(content);
+
+  console.log(content.sentences);
 }
 
 start();
