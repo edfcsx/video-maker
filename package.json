@@ -33,7 +33,9 @@
     "pkg": "^4.3.7"
   },
   "dependencies": {
+    "algorithmia": "^0.3.10",
     "prompts": "^2.0.3",
-    "rss-parser": "^3.6.3"
+    "rss-parser": "^3.6.3",
+    "sbd": "^1.0.14"
   }
 }
